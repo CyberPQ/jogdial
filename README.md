@@ -3,8 +3,22 @@ Molette arduino pour réglage du son ou montage vidéo
 
 ## Cablage
 
+Arduino de type xxxxx (vue commme un _Leonardo_)
+
+Connexion du codeur :
+- `5V` --> Pin `5V` de l'Arduino
+- `Gnd` --> Pin `GND` de l'Arduino
+- `S1` --> Pin `9` de l'Arduino
+- `S2` --> Pin `10` de l'Arduino
+- `Key` --> Pin `11` de l'Arduino
+
 ## Compilation
 
+> todo
+
+## Utilisation
+
+> todo (y compris personnalisation des touches)
 
 
 ## Quelques liens interessant sur le sujet

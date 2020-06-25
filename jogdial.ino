@@ -1,3 +1,4 @@
+
 // [ Instruction ]
 //Youtube https://youtu.be/FACm5D3bskQ
 //Manual https://sites.google.com/view/100happythings/15-premiere-pro-dial-diy
@@ -18,20 +19,20 @@
 // include a EEPROM library for memorizing last function
 #include <EEPROM.h>
 
-// From here, text "OUTPUT_B" is going to be replaced with "15".
-#define  OUTPUT_B 15
+// "OUTPUT_B" pin.
+#define  OUTPUT_B 10
 
-// "OUTPUT_A" is going to be replaced with "A0".
-#define  OUTPUT_A A0
+// "OUTPUT_A" pin.
+#define  OUTPUT_A 9
 
-// "BUTTON" is going to be replaced with "A1".
-#define  BUTTON A1
+// "BUTTON" pin
+#define  BUTTON 11
 
 // "PIN_5V" is going to be replaced with "A2".
-#define PIN_5V  A2
+//#define PIN_5V  A2
 
 // "PIN_GND" is going to be replaced with "A3".
-#define PIN_GND  A3
+//#define PIN_GND  A3
 
 // Declare variables aState, aLastState for checking the state of OUTPUT_A of the encoder
 bool aState;
@@ -54,6 +55,10 @@ const int numMode = 2;
 // void setup(){} function is for one time setting
 void setup() {
 
+  //led
+  pinMode(LED_BUILTIN, OUTPUT);
+  digitalWrite(LED_BUILTIN, HIGH);
+  
   //read the last mode
   mode = EEPROM.read(0);
 
@@ -78,19 +83,29 @@ void setup() {
   // This pin is used for giving 5V to the encoder.
   // normally, 5v is coming from VCC, but, I didn't want to use any wires
   // So, this is a kind of trick, but it works well.
-  pinMode(PIN_5V, OUTPUT);
-  digitalWrite(PIN_5V, HIGH);
+  //pinMode(PIN_5V, OUTPUT);
+  //digitalWrite(PIN_5V, HIGH);
 
   // PIN_GND (A3) is for OUTPUT
   // This pin is used for giving GND to the encoder.
   // normally, GND is coming from GND, but, I didn't want to use any wires
   // So, this is a kind of trick, but it works well.
-  pinMode(PIN_GND, OUTPUT);
-  digitalWrite(PIN_GND, LOW);
+  // pinMode(PIN_GND, OUTPUT);
+  //digitalWrite(PIN_GND, LOW);
 
   // read a signal from OUTPUT_A
   // this is for initialization
   aLastState = digitalRead(OUTPUT_A);
+
+  //Initialize serial and wait for port to open:
+  Serial.begin(115200);
+  while (!Serial) {
+    ; // wait for serial port to connect. Needed for native USB port only
+  }
+
+  // prints title with ending line break
+  Serial.println("JogDial by CyberPQ");
+  digitalWrite(LED_BUILTIN, LOW);
 }
 
 // in order to prevent chattering, we need to check the moment when was the last click moment
@@ -136,7 +151,8 @@ void loop() {
   } else {
 
     if (lastButtonState == LOW) {   // LOW -> HIGH : check whether long press or not
-      if (millis() - lastClickTime >= 3000) {
+      Serial.println(millis() - lastClickTime);
+      if (millis() - lastClickTime >= 1000) {
         // long press : mode change
         changeMode();
       } else {
@@ -151,8 +167,13 @@ void loop() {
 }
 
 void changeMode() {
+  digitalWrite(LED_BUILTIN, HIGH);
   mode = ++mode % numMode;
   EEPROM.write(0, mode);
+  Serial.print("changement de mode : ");
+  Serial.println(mode);
+  delay(100);
+  digitalWrite(LED_BUILTIN, LOW);
 }
 
 void rotateLeft() {
@@ -163,6 +184,7 @@ void rotateLeft() {
       Keyboard.press(KEY_UP_ARROW);
     }
     Keyboard.releaseAll();
+    Serial.println("left");
   }
 }
 
@@ -174,6 +196,7 @@ void rotateRight() {
       Keyboard.press(KEY_DOWN_ARROW);
     }
     Keyboard.releaseAll();
+    Serial.println("right");
   }
 }
 
@@ -184,4 +207,5 @@ void pressButton() {
     Keyboard.press(KEY_RIGHT_ARROW);
     Keyboard.releaseAll();
   }
+  Serial.println("  press");
 }
