@@ -53,7 +53,7 @@ bool lastButtonState = 0;
 // mode selection
 #define PREMIERE_MODE 0
 #define LIGHTROOM_MODE 1
-int mode = PREMIERE_MODE;
+int mode = LIGHTROOM_MODE;
 const int numMode = 2;
 
 // void setup(){} function is for one time setting
@@ -102,10 +102,12 @@ void setup() {
   aLastState = digitalRead(OUTPUT_A);
 
   //Initialize serial and wait for port to open:
-  Serial.begin(115200);
-  while (!Serial) {
+  /*Serial.begin(115200);
+    while (!Serial) {
     ; // wait for serial port to connect. Needed for native USB port only
-  }
+    }
+  */
+  delay(300);
 
   // prints title with ending line break
   Serial.println("JogDial by CyberPQ");
@@ -183,10 +185,10 @@ void changeMode() {
 void rotateLeft() {
   if (tempCount++ % RESOLUTION == 0) {
     if (mode == PREMIERE_MODE) {
-      Keyboard.press(KEY_LEFT_ARROW);
-    } else if (mode == LIGHTROOM_MODE) {
       Keyboard.press(KEY_LEFT_ALT);
-      Keyboard.press(KEY_LEFT_ARROW);
+      Keyboard.press(KEY_UP_ARROW);
+    } else if (mode == LIGHTROOM_MODE) {
+      Keyboard.press('m');  // , in azerty
     }
     Keyboard.releaseAll();
     Serial.println("left");
@@ -196,10 +198,10 @@ void rotateLeft() {
 void rotateRight() {
   if (tempCount++ % RESOLUTION == 0) {
     if (mode == PREMIERE_MODE) {
-      Keyboard.press(KEY_RIGHT_ARROW);
-    } else if (mode == LIGHTROOM_MODE) {
       Keyboard.press(KEY_LEFT_ALT);
-      Keyboard.press(KEY_RIGHT_ARROW);
+      Keyboard.press(KEY_DOWN_ARROW);
+    } else if (mode == LIGHTROOM_MODE) {
+      Keyboard.press(',');  // ; in azerty
     }
     Keyboard.releaseAll();
     Serial.println("right");
