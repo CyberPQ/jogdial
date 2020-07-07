@@ -10,6 +10,10 @@
 //Arduino pro micro http://ebay.to/2oxvIrw ($4.9)
 //Non Slip Rubber http://ebay.to/2oyFGc1 ($0.5)
 
+
+// Nom des touches clavier :
+//     https://www.arduino.cc/en/Reference/KeyboardModifiers
+
 // Resolution : some encoder is too sensitive. this reduces sensitivity.
 #define RESOLUTION 2
 
@@ -20,10 +24,10 @@
 #include <EEPROM.h>
 
 // "OUTPUT_B" pin.
-#define  OUTPUT_B 10
+#define  OUTPUT_B 9
 
 // "OUTPUT_A" pin.
-#define  OUTPUT_A 9
+#define  OUTPUT_A 10
 
 // "BUTTON" pin
 #define  BUTTON 11
@@ -58,7 +62,7 @@ void setup() {
   //led
   pinMode(LED_BUILTIN, OUTPUT);
   digitalWrite(LED_BUILTIN, HIGH);
-  
+
   //read the last mode
   mode = EEPROM.read(0);
 
@@ -181,7 +185,8 @@ void rotateLeft() {
     if (mode == PREMIERE_MODE) {
       Keyboard.press(KEY_LEFT_ARROW);
     } else if (mode == LIGHTROOM_MODE) {
-      Keyboard.press(KEY_UP_ARROW);
+      Keyboard.press(KEY_LEFT_ALT);
+      Keyboard.press(KEY_LEFT_ARROW);
     }
     Keyboard.releaseAll();
     Serial.println("left");
@@ -193,7 +198,8 @@ void rotateRight() {
     if (mode == PREMIERE_MODE) {
       Keyboard.press(KEY_RIGHT_ARROW);
     } else if (mode == LIGHTROOM_MODE) {
-      Keyboard.press(KEY_DOWN_ARROW);
+      Keyboard.press(KEY_LEFT_ALT);
+      Keyboard.press(KEY_RIGHT_ARROW);
     }
     Keyboard.releaseAll();
     Serial.println("right");
@@ -202,10 +208,12 @@ void rotateRight() {
 
 void pressButton() {
   if (mode == PREMIERE_MODE) {
-    Keyboard.print("c");
+    Keyboard.press(KEY_LEFT_CTRL);
+    Keyboard.press('t');
   } else if (mode == LIGHTROOM_MODE) {
-    Keyboard.press(KEY_RIGHT_ARROW);
-    Keyboard.releaseAll();
+    Keyboard.press(KEY_LEFT_CTRL);
+    Keyboard.press('t');
   }
+  Keyboard.releaseAll();
   Serial.println("  press");
 }

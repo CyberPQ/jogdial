@@ -8,8 +8,8 @@ Arduino de type xxxxx (vue commme un _Leonardo_)
 Connexion du codeur :
 - `5V` --> Pin `5V` de l'Arduino
 - `Gnd` --> Pin `GND` de l'Arduino
-- `S1` --> Pin `9` de l'Arduino
-- `S2` --> Pin `10` de l'Arduino
+- `S1` --> Pin `10` de l'Arduino
+- `S2` --> Pin `9` de l'Arduino
 - `Key` --> Pin `11` de l'Arduino
 
 ## Compilation
@@ -18,10 +18,11 @@ Connexion du codeur :
 
 ## Utilisation
 
-> todo (y compris personnalisation des touches)
+> todo (y compris personnalisation des touches)  
+> cf. https://www.arduino.cc/en/Reference/KeyboardModifiers
 
 
-## Quelques liens interessant sur le sujet
+## Quelques liens interessants sur le sujet
 
 Firmware : 
 - https://github.com/happythingsmaker/PremiereProDialDIY
